@@ -3,13 +3,13 @@ import 'firebase/auth';
 
 if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
   const CLIENT_CONFIG = {
-    apiKey: 'YOUR_API_KEY_HERE',
-    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-    databaseURL: 'https://YOUR_PROJECT_ID.firebaseio.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-    messagingSenderId: 'XXXXXXXXX',
-    appId: '1:XXXXXXXXXXXXX:web:XXXXXXXXXXXXX',
+    apiKey: 'AIzaSyCwDemOYP04flvahj8RRaUqYRLjlOYeiOI',
+    authDomain: 'storycomp-ab155.firebaseapp.com',
+    databaseURL: 'https://storycomp-ab155.firebaseio.com',
+    projectId: 'storycomp-ab155',
+    storageBucket: 'storycomp-ab155.appspot.com',
+    messagingSenderId: '192779751323',
+    appId: '1:192779751323:web:10ccd85b72a96065df9b3e',
   };
 
   firebaseClient.initializeApp(CLIENT_CONFIG);

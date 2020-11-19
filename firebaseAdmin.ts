@@ -8,7 +8,7 @@ if (!firebaseAdmin.apps.length) {
       clientEmail: serviceAccount.client_email,
       projectId: serviceAccount.project_id,
     }),
-    databaseURL: 'https://YOUR_PROJECT_ID.firebaseio.com',
+    databaseURL: 'https://storycomp-ab155.firebaseio.com',
   });
 }
 

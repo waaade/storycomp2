@@ -18,7 +18,7 @@ export default () => {
 
   return (
     <div style={{ padding: '40px' }}>
-      <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p>
+      {/* <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p> */}
 
       <p>
         <Link href="/authenticated">
@@ -26,9 +26,10 @@ export default () => {
         </Link>
       </p>
       <p>
+      {user ? user.uid : 
         <Link href="/login">
           <a>Login</a>
-        </Link>
+        </Link>}
       </p>
     </div>
   );
