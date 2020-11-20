@@ -17,16 +17,16 @@ export default () => {
   const { user } = useAuth();
 
   return (
-    <div style={{ padding: '40px' }}>
-      {/* <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p> */}
-
+    <div>
+      <h1>StoryComp</h1>
+      
       <p>
         <Link href="/authenticated">
           <a>Go to authenticated route</a>
         </Link>
       </p>
       <p>
-      {user ? user.uid : 
+      {user ? "You are signed in" : 
         <Link href="/login">
           <a>Login</a>
         </Link>}

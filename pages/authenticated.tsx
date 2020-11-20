@@ -13,9 +13,23 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     // the user is authenticated!
     // FETCH STUFF HERE
+    
+    //Time to start accessing the Firestore database
+    const db = firebaseAdmin.firestore();
+
+    //Add user to users collection, if it's not already there
+    const doc = await db.collection('users').doc(uid).get();
+    if (!doc.exists) {
+      const user = { id: uid,
+                    email: email 
+      };
+      const res = await db.collection('users').doc(uid).set(user);
+    }
+
+    
 
     return {
-      props: { message: `Your email is ${email} and your UID is ${uid}.` },
+      props: { message: `Hello ${email}!` },
     };
   } catch (err) {
     // either the `token` cookie didn't exist

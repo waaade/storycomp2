@@ -31,7 +31,7 @@ export default (_props: any) => {
       firebaseClient.auth.GoogleAuthProvider.PROVIDER_ID,
       firebaseClient.auth.EmailAuthProvider.PROVIDER_ID,
     ],
-    signInSuccessUrl: '/'
+    signInSuccessUrl: '/authenticated'
   };
 
 
@@ -45,35 +45,6 @@ export default (_props: any) => {
       <br />
       <StyledFirebaseAuth uiConfig={uiConfig}
                                 firebaseAuth={firebaseClient.auth()}/>
-      {/* <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={'Email'}
-      />
-      <input
-        type={'password'}
-        value={pass}
-        onChange={(e) => setPass(e.target.value)}
-        placeholder={'Password'}
-      />
-      <button
-        onClick={async () => {
-          await firebaseClient
-            .auth()
-            .createUserWithEmailAndPassword(email, pass);
-          window.location.href = '/';
-        }}
-      >
-        Create account
-      </button>
-      <button
-        onClick={async () => {
-          await firebaseClient.auth().signInWithEmailAndPassword(email, pass);
-          window.location.href = '/';
-        }}
-      >
-        Log in
-      </button>*/}
     </div> 
   );
 };
