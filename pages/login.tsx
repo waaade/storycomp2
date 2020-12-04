@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import firebaseClient from 'firebase/app';
+import 'firebase/auth';
 import Link from 'next/link';
 //import { firebaseClient } from '../firebaseClient';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebaseClient from 'firebase/app';
-import 'firebase/auth';
 
 if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
   const CLIENT_CONFIG = {
@@ -25,26 +25,33 @@ if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
 
 
 export default (_props: any) => {
-  const uiConfig = {
-    signInFlow: 'popup',
-    signInOptions: [
-      firebaseClient.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebaseClient.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-    signInSuccessUrl: '/authenticated'
-  };
+  let firebaseAppDefined = false
 
+  //Thank you corysimmons https://github.com/firebase/firebase-js-sdk/issues/258
+  //setInterval(() => {
+    //if (!firebaseAppDefined) {
+      //if (firebase.app()) {
+        const uiConfig = {
+      signInFlow: 'popup',
+      signInOptions: [
+        firebaseClient.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebaseClient.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+      signInSuccessUrl: '/authenticated'
+      };
 
-  // const [email, setEmail] = useState('');
-  // const [pass, setPass] = useState('');
-  return (
-    <div>
-      <Link href="/">
-        <a>Go back to home page</a>
-      </Link>
-      <br />
-      <StyledFirebaseAuth uiConfig={uiConfig}
-                                firebaseAuth={firebaseClient.auth()}/>
-    </div> 
-  );
-};
+      return (
+      <div>
+        <Link href="/">
+          <a>Go back to home page</a>
+        </Link>
+        <br />
+        <StyledFirebaseAuth uiConfig={uiConfig}
+                                  firebaseAuth={firebaseClient.auth()}/>
+      </div> 
+      );
+    };
+      //firebaseAppDefined = true
+    //}
+  //}, 100)
+  

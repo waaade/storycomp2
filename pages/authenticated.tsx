@@ -2,8 +2,8 @@ import React from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../firebaseAdmin';
 import { firebaseClient } from '../firebaseClient';
-
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
+import { Browser, ProjectList, Project } from '../components/Browser';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
@@ -21,15 +21,25 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const doc = await db.collection('users').doc(uid).get();
     if (!doc.exists) {
       const user = { id: uid,
-                    email: email 
+                     email: email 
       };
       const res = await db.collection('users').doc(uid).set(user);
     }
 
-    
+    //get all projects where the user id matches the authenticated user's
+    const projectsRef = db.collection('projects');
+    const snapshot = await projectsRef.where('userId', '==', uid).get();
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+    }
+    const projects = snapshot.map(element => {
+      return {id: element.id, data: element.data()};
+    });
+      
+    // const browser = <Browser collection={projects} />;
 
     return {
-      props: { message: `Hello ${email}!` },
+      props: { message: `Hello ${email}!`, projects: projects },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -49,12 +59,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 };
-
-export default (
+const Authenticated = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => (
   <div>
     <p>{props.message!}</p>
+    <Browser collection={projects} />
     <button
       onClick={async () => {
         await firebaseClient.auth().signOut();
@@ -65,3 +75,4 @@ export default (
     </button>
   </div>
 );
+export default Authenticated;
