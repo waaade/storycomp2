@@ -3,7 +3,6 @@ import nookies from 'nookies';
 import { firebaseAdmin } from '../firebaseAdmin';
 import { firebaseClient } from '../firebaseClient';
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
-import { Browser, ProjectList, Project } from '../components/Browser';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
@@ -21,25 +20,32 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const doc = await db.collection('users').doc(uid).get();
     if (!doc.exists) {
       const user = { id: uid,
-                     email: email 
+                    email: email 
       };
       const res = await db.collection('users').doc(uid).set(user);
     }
 
-    //get all projects where the user id matches the authenticated user's
-    const projectsRef = db.collection('projects');
+     const projectsRef = db.collection('projects');
     const snapshot = await projectsRef.where('userId', '==', uid).get();
+    let projects = null;
     if (snapshot.empty) {
       console.log('No matching documents.');
     }
-    const projects = snapshot.map(element => {
-      return {id: element.id, data: element.data()};
-    });
-      
-    // const browser = <Browser collection={projects} />;
+    else {
+      console.log(snapshot.length);
+      snapshot.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+        // projects.push({id: doc.id, 
+        //               data: {
+        //                 name: doc.data().name, 
+        //                 userId: doc.data().userId}
+        //                 });
+        });
+    }
+    
 
     return {
-      props: { message: `Hello ${email}!`, projects: projects },
+      props: { message: `Hello ${email}!` },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -59,12 +65,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 };
+
 const Authenticated = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
+props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => (
   <div>
     <p>{props.message!}</p>
-    <Browser collection={projects} />
     <button
       onClick={async () => {
         await firebaseClient.auth().signOut();
@@ -76,3 +82,4 @@ const Authenticated = (
   </div>
 );
 export default Authenticated;
+  
